@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${isEdit ? 'Izmeni Naplatnu Stanicu' : 'Dodaj Novu Naplatnu Stanicu'}"></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 th:text="${isEdit ? 'Izmena Naplatne Stanice' : 'Dodavanje Nove Naplatne Stanice'}">Forma za Naplatnu Stanicu</h2>
+
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}"></span>
+    </div>
+
+    <form
+            th:object="${stanicaRequest}"
+            th:action="${isEdit
+                ? '/app/stanice/izmeni-stanicu/' + stanicaRequest.id
+                : '/app/stanice/dodaj-stanicu'}"
+            method="post"
+    >
+
+        <input type="hidden" th:if="${isEdit}" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="naziv">Naziv Stanice:</label>
+            <input type="text" id="naziv" th:field="*{naziv}" class="form-control" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="gradId">Povezani Grad (Opciono):</label>
+            <select id="gradId" th:field="*{gradId}" class="form-control">
+                <option value="">-- Nije Povezan sa Gradom --</option>
+                <option
+                        th:each="grad : ${gradovi}"
+                        th:value="${grad.id}"
+                        th:text="${grad.naziv}"
+                ></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="deonicaId">Povezana Deonica:</label>
+            <select id="deonicaId" th:field="*{deonicaId}" class="form-control" required>
+                <option value="">-- Izaberite Deonicu --</option>
+                <option
+                        th:each="deonica : ${deonice}"
+                        th:value="${deonica.id}"
+                        th:text="${deonica.naziv}"
+                ></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" th:text="${isEdit ? 'Ažuriraj Stanicu' : 'Sačuvaj Stanicu'}">Sačuvaj</button>
+
+        <a href="/app/stanice" class="btn btn-secondary">Odustani i Nazad</a>
+
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Naplate Putarine (Admin Panel)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background-color: #e9ecef;
+            color: #343a40;
+            text-align: center;
+        }
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 900px;
+            margin: 40px auto;
+        }
+        h1 {
+            color: #007bff;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+        .main-button-container {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column; /* Vertikalno slaganje */
+            gap: 20px;
+        }
+        .action-group {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: left;
+        }
+        .action-group h2 {
+            color: #28a745;
+            margin-top: 0;
+            border-bottom: 1px dashed #ced4da;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+        .btn {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.1s;
+            display: inline-block;
+            margin-right: 15px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+        }
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        .info-list li {
+            margin-bottom: 8px;
+            color: #6c757d;
+        }
+        .info-list a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .info-list a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Administrativni Panel - Sistem Naplate Putarine</h1>
+
+    <p>Dobrodošli u glavni panel za upravljanje sistemom. Izaberite opciju za nastavak:</p>
+
+    <div class="main-button-container">
+
+        <div class="action-group">
+            <h2>Upravljanje Zaposlenicima (Korisnici)</h2>
+            <p>Kreirajte, pregledajte i brišite radnike na naplatnim stanicama.</p>
+            <a th:href="@{/app/korisnici}" class="btn btn-primary">Svi Zaposlenici</a>
+        </div>
+
+        <div class="action-group">
+            <h2>Upravljanje Naplatnim Stanicama</h2>
+            <p>Dodavanje, izmena i pregled naplatnih stanica.</p>
+            <a th:href="@{/app/stanice}" class="btn btn-primary">Sve Stanice</a>
+        </div>
+
+        <div class="action-group">
+            <h2>Simulacija i Prolasci</h2>
+            <p>Propuštanje vozila i evidencija svih prolazaka.</p>
+            <a th:href="@{/app/simulacija-naplate}" class="btn btn-primary">Simulacija Naplate</a>
+        </div>
+
+    </div>
+
+    <h2 style="margin-top: 40px; color: #6c757d; border-bottom: none; padding-bottom: 0;">REST API (Debug)</h2>
+    <ul class="info-list">
+        <li><a href="/api/deonice" target="_blank">/api/deonice</a></li>
+        <li><a href="/api/zaposlenici" target="_blank">/api/zaposlenici</a></li>
+        <li><a href="/api/prolasci" target="_blank">/api/prolasci</a></li>
+    </ul>
+
+    <hr style="margin-top: 30px;">
+    <p style="font-size: 0.8em; color: #888;">Aplikacija je pokrenuta. Sve rute kreirane u kontrolerima su aktivne.</p>
+</div>
+
+</body>
+</html>

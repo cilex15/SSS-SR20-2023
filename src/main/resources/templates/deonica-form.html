@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${isEdit ? 'Izmeni Deonicu' : 'Dodaj Novu Deonicu'}"></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 th:text="${isEdit ? 'Izmena Deonice' : 'Dodavanje Nove Deonice'}">Forma za Deonicu</h2>
+
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        <span th:text="${error}"></span>
+    </div>
+
+    <form
+            th:object="${deonicaRequest}"
+            th:action="${isEdit
+                ? '/app/stanice/izmeni-deonicu/' + deonicaRequest.id
+                : '/app/stanice/dodaj-deonicu'}"
+            method="post"
+    >
+
+        <input type="hidden" th:if="${isEdit}" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="naziv">Naziv Deonice:</label>
+            <input type="text" id="naziv" th:field="*{naziv}" class="form-control" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="duzinaKm">Dužina (km):</label>
+            <input type="number" id="duzinaKm" th:field="*{duzinaKm}" class="form-control" step="0.01" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="baznaCena">Bazna Cena (EUR/RSD):</label>
+            <input type="number" id="baznaCena" th:field="*{baznaCena}" class="form-control" step="0.01" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="gradPolazakId">Grad Polaska:</label>
+            <select id="gradPolazakId" th:field="*{gradPolazakId}" class="form-control" required>
+                <option value="">-- Izaberite Grad --</option>
+                <option
+                        th:each="grad : ${gradovi}"
+                        th:value="${grad.id}"
+                        th:text="${grad.naziv}"
+                ></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="gradDolazakId">Grad Dolaska:</label>
+            <select id="gradDolazakId" th:field="*{gradDolazakId}" class="form-control" required>
+                <option value="">-- Izaberite Grad --</option>
+                <option
+                        th:each="grad : ${gradovi}"
+                        th:value="${grad.id}"
+                        th:text="${grad.naziv}"
+                ></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" th:text="${isEdit ? 'Ažuriraj Deonicu' : 'Sačuvaj Deonicu'}">Sačuvaj</button>
+
+        <a href="/app/stanice" class="btn btn-secondary">Odustani i Nazad</a>
+
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Zaposlenici (Korisnici)</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f4; }
+        .container { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #007bff; color: white; }
+        .action-buttons a {
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        .btn-back { background-color: #6c757d; color: white; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Pregled Zaposlenika</h1>
+
+    <div class="action-buttons">
+        <a th:href="@{/app/korisnici/dodaj}" class="btn-success">Dodaj Novog Korisnika</a>
+
+        <hr style="margin-top: 20px; border: 0; border-top: 1px solid #eee;">
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Ime i Prezime</th>
+            <th>Pozicija</th>
+            <th>Naplatna Stanica</th>
+            <th>Akcije</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="zaposlenik : ${zaposlenici}">
+            <td th:text="${zaposlenik.id}">1</td>
+            <td th:text="${zaposlenik.ime + ' ' + zaposlenik.prezime}">Marko Marković</td>
+            <td th:text="${zaposlenik.pozicija}">Radnik na rampi</td>
+            <td th:text="${zaposlenik.naplatnaStanicaNaziv ?: 'Nije dodeljen'}">Stara Pazova</td>
+            <td>
+                <a th:href="@{/app/korisnici/izmeni/{id}(id=${zaposlenik.id})}" class="btn-warning" style="margin-right: 10px;">
+                    Izmeni
+                </a>
+
+                <form th:action="@{/app/korisnici/obrisi/{id}(id=${zaposlenik.id})}" method="post" style="display: inline;">
+                    <button type="submit" class="btn-danger"
+                            onclick="return confirm('Da li ste sigurni da želite obrisati ovog zaposlenika?');">
+                        Obriši
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+
+        <style>
+            /* ... (postojeci stilovi) ... */
+            .btn-warning { background-color: #ffc107; color: #212529; text-decoration: none; padding: 8px 15px; border-radius: 5px; font-weight: bold; display: inline-block; }
+        </style>
+    </table>
+
+    <a th:href="@{/}" class="btn-back">Nazad na Admin Panel</a>
+</div>
+
+</body>
+</html>

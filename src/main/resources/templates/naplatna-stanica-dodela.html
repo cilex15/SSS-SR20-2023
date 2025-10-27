@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="sr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodeli Zaposlenika Stanici</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        label { display: block; margin-top: 10px; font-weight: bold; color: #555; }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+        button {
+            background-color: #28a745; /* Zelena boja za Dodaj/Dodeli */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover { background-color: #218838; }
+        .btn { padding: 8px 12px; text-decoration: none; border-radius: 4px; cursor: pointer; margin-right: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Dodeli Zaposlenika Stanici: <span th:text="${stanica.naziv}">Naziv Stanice</span></h1>
+
+    <a th:href="@{/app/stanice}" class="btn" style="background-color: grey; margin-bottom: 10px;">Nazad na Administraciju Strukture</a>
+
+    <form th:action="@{/app/stanice/dodeli-zaposlenika}" th:object="${dodelaRequest}" method="post">
+
+        <input type="hidden" th:field="*{stanicaId}" />
+
+        <label>Stanica: <strong th:text="${stanica.naziv}"></strong> (ID: <span th:text="${stanica.id}"></span>)</label>
+
+        <label for="zaposlenikId">Izaberi Zaposlenika za dodelu:</label>
+        <select id="zaposlenikId" th:field="*{zaposlenikId}" required>
+            <option value="">-- Izaberite Zaposlenika --</option>
+            <option th:each="zaposlenik : ${sviZaposlenici}"
+                    th:value="${zaposlenik.id}"
+                    th:text="${zaposlenik.ime + ' ' + zaposlenik.prezime + ' (Trenutna: ' + (zaposlenik.naplatnaStanicaNaziv != null ? zaposlenik.naplatnaStanicaNaziv : 'Nije dodeljen') + ')'}">Ime Zaposlenika</option>
+        </select>
+
+        <button type="submit">Dodeli Zaposlenika</button>
+        <p style="margin-top: 15px; font-style: italic; color: #888;">Napomena: Ako je zaposlenik već dodeljen drugoj stanici, biće premešten na ovu stanicu.</p>
+    </form>
+</div>
+</body>
+</html>
